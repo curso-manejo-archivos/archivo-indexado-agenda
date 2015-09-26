@@ -1,1 +1,6 @@
 /build/
+/nbproject/private/
+test
+*~
+*.swp
+*.directory
