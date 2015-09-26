@@ -16,6 +16,11 @@
  */
 package agenda;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Dhaby Xiloj <dhabyx@gmail.com>
@@ -27,6 +32,36 @@ public class Agenda {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        try {
+            Archivo a = new Archivo("test"); 
+            a.agregarRegistro(new Registro("Juan Ernesto", 
+                                            "Fuentes Fulano", 
+                                            "12314", 
+                                            "Ciudad"));
+            a.agregarRegistro(new Registro("Juan Fulano", 
+                                            "Mendez Fulano", 
+                                            "23423", 
+                                            "Ciudad"));
+            a.agregarRegistro(new Registro("Pedro", 
+                                            "Fulano Ramos", 
+                                            "34234", 
+                                            "Ciudad"));
+            a.agregarRegistro(new Registro("Luis", 
+                                            "Gutierrez", 
+                                            "43242", 
+                                            "Ciudad"));
+            //a.escribirDatos();
+            System.out.println(a.contarRegistros());
+            a.leerIndice();
+            a.imprimirIndice();
+            a.cerrar();
+        } catch (IOException ex) {
+            Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ArchivoValidoException ex) {
+            //Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.toString());
+        }
     }
     
 }

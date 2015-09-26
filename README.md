@@ -41,6 +41,13 @@ Dirección | Caracter | n
 Campo | Tipo | Tamaño (Bytes)
 ------| -----| --------------
 Cantidad de registros | Entero | 3
+Referencia | Variable | n
+
+
+### Estructura de cada Referencia de Indice
+
+Campo | Tipo | Tamaño (Bytes)
+------| -----| --------------
 Posición | Entero | 3
 Longitud de Apellido | Entero | 1
 Apellido | Caracter | n
