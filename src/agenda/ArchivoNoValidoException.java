@@ -20,23 +20,23 @@ package agenda;
  *
  * @author Dhaby Xiloj <dhabyx@gmail.com>
  */
-public class ArchivoValidoException extends Exception{
+public class ArchivoNoValidoException extends Exception{
     private String mensaje = "El archivo no tiene la estructura de una Agenda";
     
-    public ArchivoValidoException() {
+    public ArchivoNoValidoException() {
         super();
     }   
     
-    public ArchivoValidoException(String mensaje) {
+    public ArchivoNoValidoException(String mensaje) {
         super(mensaje);
         this.mensaje = mensaje;
     }
     
-    public ArchivoValidoException(Throwable causa) {
+    public ArchivoNoValidoException(Throwable causa) {
         super(causa);
     }
     
-    public ArchivoValidoException(String mensaje, Throwable causa) {
+    public ArchivoNoValidoException(String mensaje, Throwable causa) {
         super(mensaje, causa);
         this.mensaje = mensaje;
     }

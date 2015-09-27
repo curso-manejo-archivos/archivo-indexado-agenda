@@ -71,6 +71,14 @@ public class Registro {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+
+    @Override
+    public String toString() {
+        return "Nombres: "+nombres+
+                "\nApellidos: "+apellidos+
+                "\nTelefono: "+telefono+
+                "\nDirección: "+direccion;
+    }
     
     
 }

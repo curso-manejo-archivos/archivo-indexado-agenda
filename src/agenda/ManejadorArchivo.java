@@ -23,7 +23,7 @@ import java.io.RandomAccessFile;
  *
  * @author Dhaby Xiloj <dhabyx@gmail.com>
  */
-public class ManejadorArchivo {
+class ManejadorArchivo {
     public static void escribirRegistro(Registro r, RandomAccessFile f) throws IOException {
         byte []longitudNombre = {(byte) r.getNombres().length()};
         byte []longitudApellido = {(byte) r.getApellidos().length()};
@@ -33,9 +33,58 @@ public class ManejadorArchivo {
         f.writeBytes(r.getNombres());
         f.write(longitudApellido);
         f.writeBytes(r.getApellidos());
-        f.writeBytes(r.getTelefono());
+        f.writeBytes(String.format("%8s", r.getTelefono()));
         f.write(longitudDireccion);
         f.writeBytes(r.getDireccion());
+    }
+    
+    public static Registro leerRegistro(RandomAccessFile f) throws IOException, ArchivoNoValidoException {
+        Registro r;
+        
+        // se separa la información por campo, ésto puede realizarse luego por medio
+        // de un ciclo for o while.
+        
+        // nombre
+        byte []nombre = null;
+        int longitudNombre;
+        longitudNombre = f.readByte() & 0xFF;
+        if (longitudNombre > 0) {
+            nombre = new byte[longitudNombre];
+            f.read(nombre);
+        } else 
+            throw new ArchivoNoValidoException("Estructura de registro inválida");
+        
+        // apellido
+        byte []apellido = null;
+        int longitudApellido;
+        longitudApellido = f.readByte() & 0xFF;
+        if (longitudApellido > 0) {
+            apellido = new byte[longitudApellido];
+            f.read(apellido);
+        } else 
+            throw new ArchivoNoValidoException("Estructura de registro inválida");
+        
+        // telefono
+        // es el único elemento distinto al resto de campos
+        byte []telefono = new byte[8];
+        f.read(telefono);
+        
+        // dirección
+        byte []direccion = null;
+        int longitudDireccion;
+        longitudDireccion = f.readByte() & 0xFF;
+        if (longitudDireccion > 0) {
+            direccion = new byte[longitudDireccion];
+            f.read(direccion);
+        } else 
+            throw new ArchivoNoValidoException("Estructura de registro inválida");
+               
+        r = new Registro(
+                new String(nombre), 
+                new String(apellido), 
+                new String(telefono),
+                new String(direccion));
+        return r;
     }
     
     public static void escribirReferenciaIndice(Referencia r, RandomAccessFile f) throws IOException{

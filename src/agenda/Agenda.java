@@ -26,41 +26,79 @@ import java.util.logging.Logger;
  * @author Dhaby Xiloj <dhabyx@gmail.com>
  */
 public class Agenda {
+    
+    /**
+     *
+     */
+    public Archivo archivo;
+    private static final String nombreArchivo ="test.data";
+    
+    public Agenda() throws IOException, FileNotFoundException, ArchivoNoValidoException {
+        archivo = new Archivo(nombreArchivo);
+    }
+    
+    public void agregarDatos() throws IOException{
+        archivo.agregarRegistro(
+                new Registro("Juan Ernesto",
+                "Fuentes Fulano",
+                "12314",
+                "Ciudad"));
+        archivo.agregarRegistro(
+                new Registro("Juan Fulano",
+                "Mendez Fulano",
+                "23423",
+                "Ciudad"));
+        archivo.agregarRegistro(
+                new Registro("Pedro",
+                "Fulano Ramos",
+                "34234",
+                "Ciudad"));
+        archivo.agregarRegistro(
+                new Registro("Luis",
+                "Gutierrez",
+                "432422132132",
+                "Ciudad"));
+        archivo.escribirDatos();
+    }
+    
+    /**
+     *
+     * @throws java.io.IOException
+     */
+    public void imprimirIndice() throws IOException {
+        archivo.leerIndice();
+        System.out.println();
+        System.out.println("Indice encontrado:");
+        System.out.println("Apellido \t Posición en archivo");
+        archivo.getIndice().stream().forEach((Referencia r) -> {
+            System.out.println(String.format("%10s", r.getApellido())+" \t "+
+                    String.format("0x%2s", Integer.toHexString((int) r.getPosicion())).replace(' ', '0'));
+        });
+    }
 
+    public void buscar(String nombre) throws IOException, ArchivoNoValidoException{
+        Registro persona = archivo.buscarPersona(nombre);
+        System.out.println();
+        if (persona == null) {
+            System.out.println("Apellido de persona no encontrada");
+            return;
+        }
+        System.out.println("Persona buscada");
+        System.out.println(persona);
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        
         try {
-            Archivo a = new Archivo("test"); 
-            a.agregarRegistro(new Registro("Juan Ernesto", 
-                                            "Fuentes Fulano", 
-                                            "12314", 
-                                            "Ciudad"));
-            a.agregarRegistro(new Registro("Juan Fulano", 
-                                            "Mendez Fulano", 
-                                            "23423", 
-                                            "Ciudad"));
-            a.agregarRegistro(new Registro("Pedro", 
-                                            "Fulano Ramos", 
-                                            "34234", 
-                                            "Ciudad"));
-            a.agregarRegistro(new Registro("Luis", 
-                                            "Gutierrez", 
-                                            "43242", 
-                                            "Ciudad"));
-            //a.escribirDatos();
-            System.out.println(a.contarRegistros());
-            a.leerIndice();
+            Agenda a = new Agenda();
+            a.agregarDatos();                       
             a.imprimirIndice();
-            a.cerrar();
-        } catch (IOException ex) {
+            a.buscar("Mendez");
+        } catch (IOException | ArchivoNoValidoException ex) {
             Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ArchivoValidoException ex) {
-            //Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex.toString());
         }
     }
     

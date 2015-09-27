@@ -16,13 +16,19 @@
  */
 package agenda;
 
+import java.util.Objects;
+
 /**
  *
  * @author Dhaby Xiloj <dhabyx@gmail.com>
  */
-class Referencia implements Comparable<Referencia> {
+public class Referencia implements Comparable<Referencia> {
     private String apellido;
     private long posicion;
+    
+    public Referencia(String apellido) {
+        this(apellido,0l);
+    }
     
     public Referencia(String apellido, long posicion) throws NullPointerException{
        this.apellido = obtenerPrimerApellido(apellido);
@@ -61,6 +67,23 @@ class Referencia implements Comparable<Referencia> {
     public int compareTo(Referencia o) {
         return this.apellido.compareTo(o.getApellido());
     }
-    
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Referencia) {
+            return this.apellido.equals(((Referencia)o).getApellido());
+        }            
+        else if (o instanceof String) {
+            return this.apellido.equals((String)o);
+        }
+        else
+            return false;
+    }
+            
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 41 * hash + Objects.hashCode(this.apellido);
+        return hash;
+    }
 }

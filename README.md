@@ -2,9 +2,11 @@
 
 Esta es un ejemplo básico de cómo crear y obtener información de un archivo indexado básico.
 
-La estructura puede ser utilizada para crear archivos multillave o incluos archivos inversos.
+La programación se realiza de una manera simple, de tal manera que el estudiante pueda comprender cómo se realiza un almacenamiento y una lectura de datos.
 
-Por motivos educacionales solamente se trabajará con datos muy básicos, dejando al estudiante la idea de cómo se almacenan éste tipo de archivos; los datos que se almacenaran son:
+La estructura basica del proyecto puede ser utilizada para crear archivos multillave o incluos archivos inversos.
+
+Por motivos educacionales solamente se trabajará con datos muy básicos, dejando al estudiante la idea de cómo se almacenan éste tipo de archivos; los datos utilizados son:
 
 * Nombres
 * Apellidos
@@ -13,41 +15,23 @@ Por motivos educacionales solamente se trabajará con datos muy básicos, dejand
 
 La indexación se realiza mediante Apellidos.
 
-## Estructura del archivo
+# Documentación
 
-### Estructura general del archivo
+* [Estructura](doc/Estructura.md)
 
-Campo       | Tipo          | Tamaño (Bytes)
-------------| ------------- | --------------
-Marca de archivo | Caracter | 3
-Localización de Indice | Entero | 3
-Registros de datos | Variable | n
-Indice | Variable | n
+# Licencia
 
-### Estructura de cada Registros
+Copyright (C) 2015 Dhaby Xiloj <dhabyx@gmail.com>
 
-Campo | Tipo | Tamaño (Bytes)
-------| -----| --------------
-Longitud de Nombre | Entero | 1
-Nombre | Caracter | n
-Longitud de Apellidos | Entero | 1
-Apellidos | Caracter | n
-Número de teléfono | Caracter | 8
-Longitud de Dirección | Entero | 1
-Dirección | Caracter | n
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-### Estructura de Indice
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-Campo | Tipo | Tamaño (Bytes)
-------| -----| --------------
-Cantidad de registros | Entero | 3
-Referencia | Variable | n
-
-
-### Estructura de cada Referencia de Indice
-
-Campo | Tipo | Tamaño (Bytes)
-------| -----| --------------
-Posición | Entero | 3
-Longitud de Apellido | Entero | 1
-Apellido | Caracter | n
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
