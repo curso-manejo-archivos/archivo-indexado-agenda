@@ -17,7 +17,12 @@
 package agenda;
 
 /**
- *
+ * Clase que permite el almacenamiento de un solo Registro de datos en la Agenda.
+ * 
+ * La estructura de cada registro se puede entender mejor consultando la documentación
+ * en el archivo doc/Estructura.md del proyecto.
+ * 
+ * 
  * @author Dhaby Xiloj <dhabyx@gmail.com>
  */
 public class Registro {
@@ -26,6 +31,12 @@ public class Registro {
     private String telefono;
     private String direccion;
     
+    /**
+     * Constructor base, solamente inicia los datos a cadenas vacías.
+     * 
+     * Ultil solamente cuando se desea crear un registro para búsquedas o
+     * creación de listas limpias.
+     */
     public Registro() {
         this.nombres = new String();
         this.apellidos = new String();
@@ -33,6 +44,21 @@ public class Registro {
         this.direccion = new String();
     }
     
+    /**
+     * Permite la creación de un registro con todos los datos necesarios,
+     * 
+     * El número de teléfono siempre se convertirá a 8 caracteres, si tiene
+     * mas se eliminan, si tiene menos números se rellena con 0's al momento
+     * de almacenarse.
+     * 
+     * Las cadenas de texto se permiten hasta una longitud de 255 caracteres,
+     * aunque actualmente no se valida su longitud.
+     * 
+     * @param nombres de la persona
+     * @param apellidos de la persona
+     * @param telefono de 8 caracteres
+     * @param direccion de la persona
+     */
     public Registro(String nombres, String apellidos, String telefono, String direccion) {
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -40,38 +66,75 @@ public class Registro {
         this.direccion = direccion;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getNombres() {
         return nombres;
     }
 
+    /**
+     *
+     * @param nombres
+     */
     public void setNombres(String nombres) {
         this.nombres = nombres;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getApellidos() {
         return apellidos;
     }
 
+    /**
+     *
+     * @param apellidos
+     */
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTelefono() {
         return telefono;
     }
 
+    /**
+     *
+     * @param telefono
+     */
     public void setTelefono(String telefono) {
         this.telefono = (telefono.length()<=8)?telefono:telefono.substring(0, 8);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDireccion() {
         return direccion;
     }
 
+    /**
+     *
+     * @param direccion
+     */
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 
+    /**
+     * Metodo implementado para cuando se utilice una escritura rápida del contenido
+     * del registro.
+     * @return 
+     */
     @Override
     public String toString() {
         return "Nombres: "+nombres+

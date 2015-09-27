@@ -52,7 +52,7 @@ class ManejadorArchivo {
         f.writeBytes(r.getNombres());
         f.write(longitudApellido);
         f.writeBytes(r.getApellidos());
-        f.writeBytes(String.format("%8s", r.getTelefono()));
+        f.writeBytes(String.format("%8s", r.getTelefono()).replace(' ', '0'));
         f.write(longitudDireccion);
         f.writeBytes(r.getDireccion());
     }
