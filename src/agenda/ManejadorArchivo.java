@@ -20,10 +20,29 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- *
+ * Administra el almacenamiento y lectura de información.
+ * 
+ * La clase no maneja la dirección donde se almacena la información, solamente 
+ * provee los métodos necesarios para accedera a los datos.
+ * 
+ * Todos los métodos en ésta clase dependen de que el objeto {@code RandomAccesFile}
+ * ya esté posicionado donde deba guardar o leer información.
+ * 
  * @author Dhaby Xiloj <dhabyx@gmail.com>
  */
 class ManejadorArchivo {
+    /**
+     * Escribe un registro {@code r} en un archivo {@code f}.
+     * 
+     * El archivo ya debe de encontrarse en la posición donde se escribirán los datos.
+     * 
+     * La estructura es la de un registro, se puede ver la documentación en el
+     * archivo doc/Estructura.md del proyecto.
+     * 
+     * @param r Objeto {@link Registro} a almacenar
+     * @param f Archivo de acceso aleatorio donde se almacenará la información
+     * @throws IOException 
+     */
     public static void escribirRegistro(Registro r, RandomAccessFile f) throws IOException {
         byte []longitudNombre = {(byte) r.getNombres().length()};
         byte []longitudApellido = {(byte) r.getApellidos().length()};
@@ -38,16 +57,29 @@ class ManejadorArchivo {
         f.writeBytes(r.getDireccion());
     }
     
+    /**
+     * Lee un registro de un archivo {@code f}
+     * 
+     * El archivo debe de estar posicionado donde se desea leer la información.
+     * 
+     * La estructura es la de un registro, se puede ver la documentación en el
+     * archivo doc/Estructura.md del proyecto.
+     * 
+     * @param f Archivo de donde se obtendrá la información
+     * @return Registro con la información obtenida del archivo
+     * @throws IOException
+     * @throws ArchivoNoValidoException en caso de encontrar un error de lectura
+     */
     public static Registro leerRegistro(RandomAccessFile f) throws IOException, ArchivoNoValidoException {
         Registro r;
         
         // se separa la información por campo, ésto puede realizarse luego por medio
-        // de un ciclo for o while.
+        // de un ciclo for o while. Se deja aislado para comprenderlo mejor.
         
         // nombre
         byte []nombre = null;
         int longitudNombre;
-        longitudNombre = f.readByte() & 0xFF;
+        longitudNombre = Conversion.unsignedByteAInt(f.readByte());
         if (longitudNombre > 0) {
             nombre = new byte[longitudNombre];
             f.read(nombre);
@@ -57,7 +89,7 @@ class ManejadorArchivo {
         // apellido
         byte []apellido = null;
         int longitudApellido;
-        longitudApellido = f.readByte() & 0xFF;
+        longitudApellido = Conversion.unsignedByteAInt(f.readByte());
         if (longitudApellido > 0) {
             apellido = new byte[longitudApellido];
             f.read(apellido);
@@ -72,7 +104,7 @@ class ManejadorArchivo {
         // dirección
         byte []direccion = null;
         int longitudDireccion;
-        longitudDireccion = f.readByte() & 0xFF;
+        longitudDireccion = Conversion.unsignedByteAInt(f.readByte());
         if (longitudDireccion > 0) {
             direccion = new byte[longitudDireccion];
             f.read(direccion);
@@ -87,6 +119,19 @@ class ManejadorArchivo {
         return r;
     }
     
+    /**
+     * Guarda la información de una sola referencia {@code r} en un archivo {@code f}.
+     * 
+     * El archivo ya debe de encontrarse en la posición donde se almacenará 
+     * la referencia
+     * 
+     * La estructura es la de una referencia, se puede ver la documentación en el
+     * archivo doc/Estructura.md del proyecto.
+     * 
+     * @param r Referencia de índice
+     * @param f Archivo donde se almacenará la información
+     * @throws IOException 
+     */
     public static void escribirReferenciaIndice(Referencia r, RandomAccessFile f) throws IOException{
         byte []longitudApellido = {(byte) r.getApellido().length()};
         
@@ -95,14 +140,31 @@ class ManejadorArchivo {
         f.writeBytes(r.getApellido());
     }
     
-    public static Referencia leerReferenciaIndice(RandomAccessFile f) throws IOException {
+    /**
+     * Obtiene una sola referencia de un archivo {@code f}.
+     * 
+     * El archivo ya debe de encontrarse en la posición donde se desea leer una
+     * referencia.
+     * 
+     * La estructura es la de una referencia, se puede ver la documentación en el
+     * archivo doc/Estructura.md del proyecto.
+     * 
+     * @param f Archivo de donde se obtiene la información
+     * @return Referencia
+     * @throws IOException
+     * @throws ArrayIndexOutOfBoundsException 
+     */
+    public static Referencia leerReferenciaIndice(RandomAccessFile f) throws IOException, ArrayIndexOutOfBoundsException {
         Referencia r;
         byte []apellido;        
         byte []posicion = new byte[3];
         
         f.read(posicion);
         int longitudApellido;
-        longitudApellido = f.readByte() & 0xFF;
+        
+        // se le aplica un AND lógico para evitar tomar el signo.
+        // vea la documentación de la clase Conversion
+        longitudApellido = Conversion.unsignedByteAInt(f.readByte());
         if (longitudApellido > 0) {
             apellido = new byte[longitudApellido];
             f.read(apellido);
